@@ -9,6 +9,9 @@ var app = express();
 
 app.use(bodyParser.json());
 
+//============ROUTES=============
+
+//POST ROUTE
 app.post('/todos', function(req, res){
   var todo = new Todo({
     text: req.body.text
@@ -17,6 +20,15 @@ app.post('/todos', function(req, res){
   todo.save().then((doc) => {
     res.send(doc);
   }, (e) => {
+    res.status(400).send(e);
+  });
+});
+
+//GET ROUTES
+app.get('/todos', function(req, res){
+  Todo.find({}).then((todos) => {
+    res.send({todos: todos});
+  }, function(e){
     res.status(400).send(e);
   });
 });
